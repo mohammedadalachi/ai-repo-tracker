@@ -6,7 +6,7 @@ from repo import Repo
 def one_dict():
     """Return a single dictionary for other test functions to use."""
     one_dict = {'name': 'zero-to-hero', 'stars': 30000,
-                   'owner': 'Abderrahamne',
+                   'owner': 'Abderrahamane',
                    'url': 'https://github.com/abderrahmane/zero-to-hero',
                    'description': 'master LLMs from zero to hero'}
     return one_dict

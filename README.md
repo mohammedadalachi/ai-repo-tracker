@@ -12,7 +12,7 @@ a programming language, or both, and draws an interactive bar chart of them. It 
 last 90 days and shows the ones with the most stars first. Stars can be
 inflated, so this is a list of popular new repos, not a measure of quality.
 
-![Bar chart of the 30 most-starred new machine-learning repos on GitHub](screenshot.png)
+![Bar chart of the 30 most-starred new machine-learning repos written in Python on GitHub](screenshot.png)
 
 ## What it does
 

@@ -8,10 +8,11 @@ def show_welcome():
     """Print a welcome message to the user."""
     welcome_title = "WELCOME TO THE AI REPO TRACKER TOOL\n"
     print(welcome_title.center(80))
-    welcome = "Description: ask for a tech topic you are interested in" 
-    welcome += " and you will get the most starred GitHub repos" 
-    welcome += " about it in the last 90 days.\n"
-    welcome += "\nExamples: llm, python, cpp, csharp and machine learning.\n"
+    welcome = "Description: \nFind the most starred new GitHub repos from the last 90 days." 
+    welcome += "\nSearch by topic, by programming language, or both." 
+    welcome += "\nPress Enter to skip one of them, but give at least one."
+    welcome += "\n\nTopic examples: llm, machine learning, cpp"
+    welcome += "\nLanguage examples: python, c++, c#, jupyter notebook\n"
     print(welcome)
     
 def ask_topic():
@@ -36,7 +37,7 @@ def fetch_repos(topic, language):
     if topic:
         query_parts.append(f"topic:{topic}")
     if language:
-        query_parts.append(f"language:{language}")
+        query_parts.append(f'language:"{language}"')
     query_parts.append("sort:stars")
     query_parts.append(f"created:>{since}")
     

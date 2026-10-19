@@ -73,7 +73,8 @@ def make_chart(repos, topic):
     stars = [repo.stars for repo in repos]
     repo_links = [f"<a href='{repo.url}'>{repo.name}</a>" for repo in repos]
     hover_texts = [f"{repo.owner}<br />{repo.description}" for repo in repos]
-    title = f"Trending {topic.title()} GitHub Repos In The Last 90 Days"
+    title = f"Newest Most-Starred {topic.title()} GitHub Repos" 
+    title += " In The Last 90 Days"
     fig = px.bar(x=repo_links, y=stars, title=title, 
                  labels={'x': 'Repository', 'y': 'Stars'}, 
                  hover_name=hover_texts)

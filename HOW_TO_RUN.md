@@ -52,7 +52,7 @@ This uses the environment's own Python, so there is no activation step.
 Activation is often blocked by PowerShell's script policy.
 
 ```powershell
-.\.venv\Scripts\python.exe -m pip install requests plotly pytest
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
 ```
 
 ## Step 7: Run the tool

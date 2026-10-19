@@ -1,8 +1,9 @@
 # AI Repo Tracker
 
-A command-line program that finds trending GitHub repositories for a topic
-and draws an interactive bar chart of them. Trending here means repos created
-in the last 90 days, with the most stars first.
+A command-line program that finds the newest GitHub repositories for a topic
+and draws an interactive bar chart of them. It looks at repos created in the
+last 90 days and shows the ones with the most stars first. Stars can be
+inflated, so this is a list of popular new repos, not a measure of quality.
 
 ![Bar chart of the 30 most-starred new machine-learning repos on GitHub](screenshot.png)
 
@@ -21,12 +22,12 @@ Hover over a bar to see the owner and the description.
 ## Requirements
 
 - Python 3.10 or newer
-- `requests`, `plotly` and `pytest`
+- `requests`, `plotly` and `pytest` (listed in `requirements.txt`)
 
 Install them with:
 
 ```text
-python -m pip install requests plotly pytest
+python -m pip install -r requirements.txt
 ```
 
 ## How to run
@@ -52,6 +53,8 @@ python -m pytest
 | `tracker.py` | The program: fetching, saving, loading and the chart |
 | `repo.py` | The `Repo` class (name, stars, owner, url, description) |
 | `test_tracker.py` | Four pytest tests with a fixture and monkeypatch |
+| `requirements.txt` | The libraries the project needs |
+| `HOW_TO_RUN.md` | A PowerShell-only guide for beginners |
 
 ## What I practiced
 

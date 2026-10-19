@@ -13,7 +13,7 @@ def one_dict():
 
 def test_repos_to_dicts(one_dict):
     """repos_to_dicts turns a list of Repo objects into a list of dictionaries."""
-    repo = Repo('zero-to-hero', 30_000, 'Abderrahamne',
+    repo = Repo('zero-to-hero', 30_000, 'Abderrahamane',
                 'https://github.com/abderrahmane/zero-to-hero',
                 'master LLMs from zero to hero')
     repos = [repo]
@@ -28,7 +28,7 @@ def test_dicts_to_repos(one_dict):
     repo = repos[0]
     assert repo.name == 'zero-to-hero'
     assert repo.stars == 30_000
-    assert repo.owner == 'Abderrahamne'
+    assert repo.owner == 'Abderrahamane'
     assert repo.url == 'https://github.com/abderrahmane/zero-to-hero'
     assert repo.description == 'master LLMs from zero to hero'
     

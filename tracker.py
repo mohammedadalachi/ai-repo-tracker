@@ -4,6 +4,10 @@ from datetime import date, timedelta
 import requests, time, json, webbrowser
 import plotly.express as px
 
+def show_welcome():
+    """Print a welcome message to the user."""
+    print("WELCOME TO THE AI REPO TRACKER TOOL\n")
+
 def ask_topic():
     """Store a topic the user entered."""
     prompt = "Enter a topic (type 'q' to quit): "
@@ -77,6 +81,8 @@ def make_chart(repos, topic):
 # Run the program only when this file is started directly,
 # so importing it (for example from pytest) does not start the loop
 if __name__ == "__main__":
+    # Display a welcome message.
+    show_welcome()
     while True:
         topic_name = ask_topic()
         if topic_name == 'q':

@@ -81,6 +81,11 @@ python -m pytest
 | `test_tracker.py` | Four pytest tests with a fixture and monkeypatch |
 | `requirements.txt` | The libraries the project needs |
 | `HOW_TO_RUN.md` | A PowerShell-only guide for beginners |
+| `LICENSE` | The MIT license |
+
+## License
+
+MIT. See the `LICENSE` file.
 
 ## What I practiced
 

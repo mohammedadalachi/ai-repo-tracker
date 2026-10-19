@@ -6,8 +6,13 @@ import plotly.express as px
 
 def show_welcome():
     """Print a welcome message to the user."""
-    print("WELCOME TO THE AI REPO TRACKER TOOL\n")
-
+    welcome_title = "WELCOME TO THE AI REPO TRACKER TOOL\n"
+    print(welcome_title.center(80))
+    welcome = "Description: ask for a tech topic you are interested in" 
+    welcome += " and you will get the most starred GitHub repos" 
+    welcome += " about it in the last 90 days.\n"
+    print(welcome)
+    
 def ask_topic():
     """Store a topic the user entered."""
     prompt = "Enter a topic (type 'q' to quit): "

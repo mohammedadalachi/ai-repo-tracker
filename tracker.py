@@ -31,7 +31,9 @@ def fetch_repos(topic):
     # Make a dictionary called headers to send an extra note to GitHub.
     headers = {"Accept":"application/vnd.github.v3+json"}
     # Make an API call and store the response object in r.
-    r = requests.get(url, headers=headers)
+    r = requests.get(url, headers=headers, timeout=10)
+    if r.status_code != 200:
+        raise ConnectionError(f"GitHub answered with status: {r.status_code}")
 
     # Convert the JSON data we received into a Python dictionary.
     response_dict = r.json()
@@ -115,7 +117,11 @@ if __name__ == "__main__":
                     make_chart(repos, topic_name)
         except requests.exceptions.ConnectionError:
             print("Sorry! No Internet.")
+        except ConnectionError as err:
+            print(err)
         except KeyError:
-            print("Too many requests. Wait a minute and try again.")
+            print("GitHub's response wasn't in the expected shape")
+        except requests.exceptions.Timeout:
+            print("GitHub took too long.")
 
  

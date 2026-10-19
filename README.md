@@ -7,8 +7,8 @@
 ![GitHub API](https://img.shields.io/badge/GitHub-REST%20API-181717?logo=github&logoColor=white)
 ![Platform](https://img.shields.io/badge/CLI-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey)
 
-A command-line program that finds the newest GitHub repositories for a topic
-and draws an interactive bar chart of them. It looks at repos created in the
+A command-line program that finds the newest GitHub repositories for a topic,
+a programming language, or both, and draws an interactive bar chart of them. It looks at repos created in the
 last 90 days and shows the ones with the most stars first. Stars can be
 inflated, so this is a list of popular new repos, not a measure of quality.
 
@@ -16,12 +16,18 @@ inflated, so this is a list of popular new repos, not a measure of quality.
 
 ## What it does
 
-1. Asks for a topic, for example `machine learning` or `llm`.
-2. Calls the GitHub API and gets the first page of matching repos.
-3. Prints each repo name and its star count.
-4. Saves the chart as `topic.html` and opens it in the browser.
-5. Saves the results to `topic.json`. If that file is less than an hour old,
-   the program reads it instead of calling GitHub again.
+1. Asks for a topic, for example `machine learning` or `llm`. Press Enter to skip it.
+2. Asks for a programming language, for example `python` or `c++`. Press Enter
+   to skip it. You must give at least one of the two.
+3. Calls the GitHub API and gets the first page of matching repos.
+4. Prints each repo name and its star count.
+5. Saves the chart as `topic_language.html` and opens it in the browser.
+6. Saves the results to `topic_language.json`. If that file is less than an hour
+   old, the program reads it instead of calling GitHub again.
+
+A topic is a tag the owner put on the repo. A language is the language the repo
+is written in. The topic `cpp` is the tag for C++ projects, while the language
+`c++` means code written in C++.
 
 In the chart, each bar is one repo. Click a repo name to open it on GitHub.
 Hover over a bar to see the owner and the description.
@@ -54,9 +60,11 @@ python -m pip install -r requirements.txt
 python tracker.py
 ```
 
-Type a topic and press Enter. Type `q` to quit.
+Type a topic and press Enter, then type a language and press Enter. Skip one
+of them by pressing Enter. Type `q` at the topic question to quit.
 
-If GitHub says too many requests, wait a minute and try again.
+If GitHub answers with status 403, you made too many requests. Wait a minute
+and try again.
 
 ## Run the tests
 

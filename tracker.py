@@ -25,13 +25,13 @@ def fetch_repos(topic):
     # Store the API address in a variable called url.
     url = "https://api.github.com/search/repositories"
     since = date.today() - timedelta(days=90)
-    # Add the query: the given topic, sorted by stars, in the last 90 days.
-    url += f"?q=topic:{topic}+sort:stars+created:>{since}" 
+    # Add the query: the given topic, sorted by stars, in the last 90 days. 
+    params = {"q": f"topic:{topic} sort:stars created:>{since}"}
     
     # Make a dictionary called headers to send an extra note to GitHub.
     headers = {"Accept":"application/vnd.github.v3+json"}
     # Make an API call and store the response object in r.
-    r = requests.get(url, headers=headers, timeout=10)
+    r = requests.get(url, headers=headers, timeout=10, params=params)
     if r.status_code != 200:
         raise ConnectionError(f"GitHub answered with status: {r.status_code}")
 

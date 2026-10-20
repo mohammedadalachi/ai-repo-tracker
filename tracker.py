@@ -144,6 +144,9 @@ if __name__ == "__main__":
             print(err)
         except KeyError:
             print("GitHub's response wasn't in the expected shape")
+        except json.JSONDecodeError:
+            print("Sorry! The json file got corrupted.")
+            path.unlink()
         except requests.exceptions.Timeout:
             print("GitHub took too long.")
             

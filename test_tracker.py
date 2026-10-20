@@ -82,5 +82,5 @@ def test_fetch_repos_error(monkeypatch):
         """Return a fake response with status 403."""
         return FakeResponse(403, {})
     monkeypatch.setattr('requests.get', fake_get)
-    with pytest.raises(ConnectionError):
+    with pytest.raises(ConnectionError, match="rate limit"):
         fetch_repos('llm', 'python')

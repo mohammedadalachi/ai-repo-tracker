@@ -48,6 +48,8 @@ def fetch_repos(topic, language):
     headers = {"Accept":"application/vnd.github.v3+json"}
     # Make an API call and store the response object in r.
     r = requests.get(url, headers=headers, timeout=10, params=params)
+    if r.status_code == 403:
+        raise ConnectionError("GitHub rate limit was reached. Please! Wait a minute.")
     if r.status_code != 200:
         raise ConnectionError(f"GitHub answered with status: {r.status_code}")
 

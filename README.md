@@ -95,7 +95,9 @@ python -m pytest
 | `repo.py` | The `Repo` class (name, stars, owner, url, description) |
 | `test_tracker.py` | Six pytest tests with a fixture, monkeypatch and a fake `requests` |
 | `requirements.txt` | The libraries the project needs |
-| `HOW_TO_RUN.md` | A PowerShell-only guide for beginners |
+| `HOW_TO_RUN_WINDOWS.md` | A setup guide for beginners on Windows |
+| `HOW_TO_RUN_LINUX.md` | A setup guide for beginners on Linux |
+| `HOW_TO_RUN_MACOS.md` | A setup guide for beginners on macOS |
 | `LICENSE` | The MIT license |
 
 ## License

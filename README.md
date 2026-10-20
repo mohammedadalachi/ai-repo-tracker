@@ -7,6 +7,10 @@
 ![GitHub API](https://img.shields.io/badge/GitHub-REST%20API-181717?logo=github&logoColor=white)
 ![Platform](https://img.shields.io/badge/CLI-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey)
 
+Built with:
+
+![Python, Git, GitHub and VS Code icons](https://skillicons.dev/icons?i=python,git,github,vscode)
+
 A command-line program that finds the newest GitHub repositories for a topic,
 a programming language, or both, and draws an interactive bar chart of them. It looks at repos created in the
 last 90 days and shows the ones with the most stars first. Stars can be

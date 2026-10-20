@@ -3,7 +3,7 @@
 ![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white)
 ![Plotly](https://img.shields.io/badge/Plotly-charts-3F4F75?logo=plotly&logoColor=white)
 ![Requests](https://img.shields.io/badge/Requests-HTTP-2C5BB4)
-![pytest](https://img.shields.io/badge/pytest-4%20tests-0A9EDC?logo=pytest&logoColor=white)
+![pytest](https://img.shields.io/badge/pytest-6%20tests-0A9EDC?logo=pytest&logoColor=white)
 ![GitHub API](https://img.shields.io/badge/GitHub-REST%20API-181717?logo=github&logoColor=white)
 ![Platform](https://img.shields.io/badge/CLI-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey)
 
@@ -39,8 +39,8 @@ Hover over a bar to see the owner and the description.
 | Python | The whole program |
 | `requests` | Calling the GitHub search API |
 | `plotly` | The interactive bar chart (saved as HTML) |
-| `json` | Caching results per topic |
-| `pytest` | Tests with a fixture and monkeypatch |
+| `json` | Caching results per search |
+| `pytest` | Tests with a fixture, monkeypatch and a fake `requests` |
 | Git and GitHub | Version control and hosting |
 
 ## Requirements
@@ -63,8 +63,19 @@ python tracker.py
 Type a topic and press Enter, then type a language and press Enter. Skip one
 of them by pressing Enter. Type `q` at the topic question to quit.
 
-If GitHub answers with status 403, you made too many requests. Wait a minute
-and try again.
+## If something goes wrong
+
+The program catches these problems, prints a message and asks for the next
+search. It does not crash.
+
+| Message | What it means |
+| --- | --- |
+| `Sorry! No Internet.` | The program could not reach GitHub. Check your connection. |
+| `GitHub took too long.` | GitHub did not answer within 10 seconds. Try again. |
+| `GitHub rate limit was reached. Please! Wait a minute.` | Status 403. You made too many requests. Wait a minute. |
+| `GitHub answered with status: ...` | Any other status that is not 200. |
+| `GitHub's response wasn't in the expected shape` | The answer did not have the data the program needs. |
+| `Sorry! The json file got corrupted.` | The saved cache file was damaged. The program deletes it, so search again. |
 
 ## Run the tests
 
@@ -78,7 +89,7 @@ python -m pytest
 | --- | --- |
 | `tracker.py` | The program: fetching, saving, loading and the chart |
 | `repo.py` | The `Repo` class (name, stars, owner, url, description) |
-| `test_tracker.py` | Four pytest tests with a fixture and monkeypatch |
+| `test_tracker.py` | Six pytest tests with a fixture, monkeypatch and a fake `requests` |
 | `requirements.txt` | The libraries the project needs |
 | `HOW_TO_RUN.md` | A PowerShell-only guide for beginners |
 | `LICENSE` | The MIT license |

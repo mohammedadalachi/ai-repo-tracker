@@ -61,8 +61,10 @@ Activation is often blocked by PowerShell's script policy.
 .\.venv\Scripts\python.exe tracker.py
 ```
 
-Type a topic such as `machine learning` and press Enter. The chart opens in
-your browser. Click a repo name to open it on GitHub. Type `q` to quit.
+Type a topic such as `machine learning` and press Enter. Then type a
+programming language such as `python` and press Enter. You can skip one of them
+by pressing Enter, but give at least one. The chart opens in your browser. Click
+a repo name to open it on GitHub. Type `q` at the topic question to quit.
 
 ## Step 8 (optional): Run the tests
 
@@ -75,6 +77,9 @@ your browser. Click a repo name to open it on GitHub. Type `q` to quit.
 | Problem | Fix |
 | --- | --- |
 | `python` is not recognized | Close PowerShell, open a new one. If it still fails, redo Step 3. |
-| "too many requests" or a 403 error | GitHub's rate limit. Wait one minute and run again. |
+| "GitHub rate limit was reached" | You made too many requests. Wait one minute and search again. |
+| "Sorry! No Internet." | The tool could not reach GitHub. Check your connection and search again. |
+| "GitHub took too long." | GitHub did not answer in time. Search again. |
+| "The json file got corrupted." | A saved result file was damaged. The tool deleted it, so search again. |
 | `ModuleNotFoundError` | Step 6 was skipped, or you are in the wrong folder. Run `cd $HOME\Desktop\ai-repo-tracker-main`, then redo Step 6. |
 | `winget` is not recognized | Download Python from python.org and tick "Add python.exe to PATH" in the installer. |

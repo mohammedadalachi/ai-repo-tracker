@@ -8,9 +8,10 @@ def show_welcome():
     """Print a welcome message to the user."""
     welcome_title = "WELCOME TO THE AI REPO TRACKER TOOL\n"
     print(welcome_title.center(80))
-    welcome = "Description: \nFind the most starred new GitHub repos from the last 90 days." 
-    welcome += "\nSearch by topic, by programming language, or both." 
-    welcome += "\nPress Enter to skip one of them, but give at least one."
+    welcome = "Description: \nType a repo name like plotly/dash to find similar repos."
+    welcome += "\nOr find the most starred new GitHub repos from the last 90 days."
+    welcome += "\nSearch by topic, by programming language, or both."
+    welcome += "\nFor topic or language, press Enter to skip one of them, but give at least one."
     welcome += "\n\nTopic examples: llm, machine learning, cpp"
     welcome += "\nLanguage examples: python, c++, c#, jupyter notebook\n"
     print(welcome)
@@ -76,6 +77,8 @@ def get_repo_info(full_name):
     """Return the topics and the main language of one GitHub repo."""
     url = f"https://api.github.com/repos/{full_name}"
     r = requests.get(url, timeout=10)
+    if r.status_code == 403:
+        raise ConnectionError("GitHub rate limit was reached. Please! Wait a minute.")
     if r.status_code != 200:
         raise ConnectionError(f"GitHub answered with status: {r.status_code}")
     repo_dict = r.json()
@@ -91,6 +94,8 @@ def find_similar(topics, full_name):
     params = {"q": " ".join(query_parts)}
     url = "https://api.github.com/search/repositories"
     r = requests.get(url, timeout=10, params=params)
+    if r.status_code == 403:
+        raise ConnectionError("GitHub rate limit was reached. Please! Wait a minute.")
     if r.status_code != 200:
         raise ConnectionError(f"GitHub answered with status: {r.status_code}")
     response_dict = r.json()
@@ -179,12 +184,21 @@ if __name__ == "__main__":
         if repo_name:
             try:
                 repos = similar_repos(repo_name)
+                if repos == []:
+                    print("No similar repos found. The repo may have no topics.")
+                    continue
                 show_repos(repos)
                 make_chart(repos, repo_name.replace('/', '_'), 
                         title=f"Repos Similar To {repo_name}<br />Ranked By Most Shared Topics First, Then Stars")
                 continue
             except ConnectionError as err:
                 print(err)
+                continue
+            except requests.exceptions.ConnectionError:
+                print("Sorry! No Internet.")
+                continue
+            except requests.exceptions.Timeout:
+                print("GitHub took too long.")
                 continue
         topic_name = ask_topic()
         if topic_name == 'q':

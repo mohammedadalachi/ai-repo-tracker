@@ -16,7 +16,11 @@ a programming language, or both, and draws an interactive bar chart of them. It 
 last 90 days and shows the ones with the most stars first. Stars can be
 inflated, so this is a list of popular new repos, not a measure of quality.
 
-![Bar chart of the 30 most-starred new machine-learning repos written in Python on GitHub](screenshot.png)
+It can also find similar repos. Give it a repo name like `plotly/dash` and it
+reads that repo's topics, searches GitHub for repos with the same topics, and
+ranks them by how many topics they share. See "Find similar repos" below.
+
+![Bar chart of the 30 most-starred new machine-learning repos written in Python on GitHub](screenshot2.png)
 
 ## What it does
 
@@ -47,6 +51,17 @@ topics. It searches once per topic and counts in how many searches each repo
 appears. The chart shows the top 30, with the most shared topics first and then
 the most stars. Because of this order, the bars are not sorted by stars. This
 search is not cached.
+
+This is a rough guide, not a measure of real similarity. Each topic search reads
+only the first 30 results by stars, so broad topics such as `python` bring in
+popular repos that are not truly similar. The repos that share the most topics
+are the best matches.
+
+![Bar chart of the 30 repos most similar to mohammedadalachi/ai-repo-tracker](screenshot1.png)
+
+In this chart, `dash` and `plotly.js` come first because they share the most
+topics with the tracker, even though their star counts are lower than the repos
+after them.
 
 ## Tech stack
 
@@ -121,4 +136,6 @@ MIT. See the `LICENSE` file.
 ## What I practiced
 
 Classes, functions, loops, error handling, JSON files, the GitHub API,
-Plotly charts, pytest, and git.
+Plotly charts, pytest, and git. For the similar-repos feature: counting with
+dictionaries, sorting by two rules (shared topics, then stars), and testing
+with a fake `requests`.

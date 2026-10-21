@@ -11,14 +11,27 @@ Built with:
 
 ![Python, Git, GitHub and VS Code icons](https://skillicons.dev/icons?i=python,git,github,vscode)
 
-A command-line program that finds the newest GitHub repositories for a topic,
-a programming language, or both, and draws an interactive bar chart of them. It looks at repos created in the
-last 90 days and shows the ones with the most stars first. Stars can be
-inflated, so this is a list of popular new repos, not a measure of quality.
+A command-line program that finds similar GitHub repos. Give it a repo name
+like `plotly/dash` and it reads that repo's topics, searches GitHub for repos
+with the same topics, and ranks them by how many topics they share. It draws an
+interactive bar chart of the results. See "Find similar repos" below.
 
-It can also find similar repos. Give it a repo name like `plotly/dash` and it
-reads that repo's topics, searches GitHub for repos with the same topics, and
-ranks them by how many topics they share. See "Find similar repos" below.
+It can also find the newest GitHub repositories for a topic, a programming
+language, or both. It looks at repos created in the last 90 days and shows the
+ones with the most stars first. Stars can be inflated, so this is a list of
+popular new repos, not a measure of quality.
+
+## Feature 1: similar repos
+
+Type a repo name like `plotly/dash`. The tool finds repos that share its topics
+and ranks them by how many topics they share.
+
+![Bar chart of the 30 repos most similar to mohammedadalachi/ai-repo-tracker](screenshot1.png)
+
+## Feature 2: newest most-starred repos
+
+Type a topic, a programming language, or both. The tool finds the newest repos
+(created in the last 90 days) and shows the ones with the most stars first.
 
 ![Bar chart of the 30 most-starred new machine-learning repos written in Python on GitHub](screenshot2.png)
 
@@ -57,11 +70,20 @@ only the first 30 results by stars, so broad topics such as `python` bring in
 popular repos that are not truly similar. The repos that share the most topics
 are the best matches.
 
-![Bar chart of the 30 repos most similar to mohammedadalachi/ai-repo-tracker](screenshot1.png)
-
-In this chart, `dash` and `plotly.js` come first because they share the most
+In the similar chart above, `dash` and `plotly.js` come first because they share the most
 topics with the tracker, even though their star counts are lower than the repos
 after them.
+
+## Newest most-starred repos
+
+Type a topic, a language, or both. Press Enter to skip one of them, but give at
+least one. The program asks GitHub for repos created in the last 90 days,
+sorted by stars, and shows the first page of 30. The chart lists them from the
+most stars to the fewest. Stars can be inflated, so this is a list of popular
+new repos, not a measure of quality.
+
+The results are saved to `topic_language.json`. If that file is less than an
+hour old, the program reads it instead of calling GitHub again.
 
 ## Tech stack
 

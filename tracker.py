@@ -28,6 +28,13 @@ def ask_language():
     language = input(prompt2).lower().strip()
     return language
 
+def ask_repo_name():
+    """Return the user's repo name."""
+    prompt3 = "Enter the repo name like owner/name" 
+    prompt3 += " to find similar repos (press Enter to skip or type 'q' to quit): "
+    repo_name = input(prompt3).strip()
+    return repo_name
+
 def fetch_repos(topic, language):
     """Return the first page of GitHub results for a topic, a language or both."""
     # Store the API address in a variable called url.
@@ -65,6 +72,60 @@ def fetch_repos(topic, language):
         repos.append(repo)
     return repos
 
+def get_repo_info(full_name):
+    """Return the topics and the main language of one GitHub repo."""
+    url = f"https://api.github.com/repos/{full_name}"
+    r = requests.get(url, timeout=10)
+    if r.status_code != 200:
+        raise ConnectionError(f"GitHub answered with status: {r.status_code}")
+    repo_dict = r.json()
+    topics = repo_dict['topics']
+    language = repo_dict['language']
+    return topics, language
+
+def find_similar(topics, full_name):
+    """Return the repos on GitHub that share all the given topics."""
+    query_parts = [f"topic:{topic}" for topic in topics]
+    query_parts.append(f"-repo:{full_name}")
+    query_parts.append("sort:stars")
+    params = {"q": " ".join(query_parts)}
+    url = "https://api.github.com/search/repositories"
+    r = requests.get(url, timeout=10, params=params)
+    if r.status_code != 200:
+        raise ConnectionError(f"GitHub answered with status: {r.status_code}")
+    response_dict = r.json()
+    repo_dicts = response_dict['items']
+    repos = []
+    for repo_dict in repo_dicts:
+        repo = Repo(repo_dict['name'], repo_dict['stargazers_count'],
+                    repo_dict['owner']['login'], repo_dict['html_url'],
+                    repo_dict['description'])
+        repos.append(repo)
+    return repos
+
+def rank_similar(topics, full_name):
+    """Return the repos that share the most topics with the given topics."""
+    counts = {}
+    repos_by_url = {}
+    for topic in topics:
+        similar = find_similar([topic], full_name)
+        for repo in similar:
+            repos_by_url[repo.url] = repo
+            counts[repo.url] = counts.get(repo.url, 0) + 1
+    def rank_key(url):
+        return counts[url], repos_by_url[url].stars
+    ranked_urls = sorted(counts, key=rank_key, reverse=True)
+    ranked_repos = []
+    for url in ranked_urls:
+        ranked_repos.append(repos_by_url[url])
+    return ranked_repos
+
+def similar_repos(full_name):
+    """Return the repos most similar to the given repo, best match first."""
+    topics, language = get_repo_info(full_name)
+    ranked = rank_similar(topics, full_name)
+    return ranked[:30]
+        
 def repos_to_dicts(repos):
     """Convert the repos into dictionaries that could be saved as JSON files."""
     dicts = []
@@ -89,18 +150,19 @@ def show_repos(repos):
         print(repo.name)
         print(repo.stars)
         
-def make_chart(repos, search_name):
+def make_chart(repos, search_name, title=''):
     """Make a bar chart of the repos."""
     stars = [repo.stars for repo in repos]
     repo_links = [f"<a href='{repo.url}'>{repo.name}</a>" for repo in repos]
     hover_texts = [f"{repo.owner}<br />{repo.description}" for repo in repos]
-    title = f"Newest Most-Starred {search_name.replace('_', ' ').strip().title()}" 
-    title += " GitHub Repos In The Last 90 Days"
+    if not title:
+        title = f"Newest Most-Starred {search_name.replace('_', ' ').strip().title()}" 
+        title += " GitHub Repos In The Last 90 Days"
     fig = px.bar(x=repo_links, y=stars, title=title, 
                  labels={'x': 'Repository', 'y': 'Stars'}, 
                  hover_name=hover_texts)
     fig.update_layout(title_font_size=28, xaxis_title_font_size=20, 
-                      yaxis_title_font_size=20)
+                      yaxis_title_font_size=20, title_x=0.5)
     fig.update_traces(marker_color='SteelBlue', marker_opacity=0.6)
     fig.write_html(f'{search_name}.html')
     webbrowser.open(f'{search_name}.html')
@@ -111,6 +173,19 @@ if __name__ == "__main__":
     # Display a welcome message.
     show_welcome()
     while True:
+        repo_name = ask_repo_name()
+        if repo_name == 'q':
+            break
+        if repo_name:
+            try:
+                repos = similar_repos(repo_name)
+                show_repos(repos)
+                make_chart(repos, repo_name.replace('/', '_'), 
+                        title=f"Repos Similar To {repo_name}<br />Ranked By Most Shared Topics First, Then Stars")
+                continue
+            except ConnectionError as err:
+                print(err)
+                continue
         topic_name = ask_topic()
         if topic_name == 'q':
             break

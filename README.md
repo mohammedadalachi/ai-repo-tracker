@@ -3,7 +3,7 @@
 ![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white)
 ![Plotly](https://img.shields.io/badge/Plotly-charts-3F4F75?logo=plotly&logoColor=white)
 ![Requests](https://img.shields.io/badge/Requests-HTTP-2C5BB4)
-![pytest](https://img.shields.io/badge/pytest-6%20tests-0A9EDC?logo=pytest&logoColor=white)
+![pytest](https://img.shields.io/badge/pytest-8%20tests-0A9EDC?logo=pytest&logoColor=white)
 ![GitHub API](https://img.shields.io/badge/GitHub-REST%20API-181717?logo=github&logoColor=white)
 ![Platform](https://img.shields.io/badge/CLI-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey)
 
@@ -20,13 +20,16 @@ inflated, so this is a list of popular new repos, not a measure of quality.
 
 ## What it does
 
-1. Asks for a topic, for example `machine learning` or `llm`. Press Enter to skip it.
-2. Asks for a programming language, for example `python` or `c++`. Press Enter
+1. Asks for a repo name like `owner/name`. Press Enter to skip it. If you type
+   one, the program finds repos that share its topics (see "Find similar repos"
+   below).
+2. Asks for a topic, for example `machine learning` or `llm`. Press Enter to skip it.
+3. Asks for a programming language, for example `python` or `c++`. Press Enter
    to skip it. You must give at least one of the two.
-3. Calls the GitHub API and gets the first page of matching repos.
-4. Prints each repo name and its star count.
-5. Saves the chart as `topic_language.html` and opens it in the browser.
-6. Saves the results to `topic_language.json`. If that file is less than an hour
+4. Calls the GitHub API and gets the first page of matching repos.
+5. Prints each repo name and its star count.
+6. Saves the chart as `topic_language.html` and opens it in the browser.
+7. Saves the results to `topic_language.json`. If that file is less than an hour
    old, the program reads it instead of calling GitHub again.
 
 A topic is a tag the owner put on the repo. A language is the language the repo
@@ -35,6 +38,15 @@ is written in. The topic `cpp` is the tag for C++ projects, while the language
 
 In the chart, each bar is one repo. Click a repo name to open it on GitHub.
 Hover over a bar to see the owner and the description.
+
+## Find similar repos
+
+Type a repo name such as `plotly/dash` at the first question. The program reads
+that repo's topics from GitHub and searches for other repos with the same
+topics. It searches once per topic and counts in how many searches each repo
+appears. The chart shows the top 30, with the most shared topics first and then
+the most stars. Because of this order, the bars are not sorted by stars. This
+search is not cached.
 
 ## Tech stack
 
@@ -64,8 +76,10 @@ python -m pip install -r requirements.txt
 python tracker.py
 ```
 
-Type a topic and press Enter, then type a language and press Enter. Skip one
-of them by pressing Enter. Type `q` at the topic question to quit.
+Press Enter at the first question to skip it, or type a repo name like
+`owner/name` to find similar repos. Then type a topic and press Enter, and type
+a language and press Enter. Skip one of them by pressing Enter. Type `q` at the
+first or the topic question to quit.
 
 ## If something goes wrong
 
@@ -77,7 +91,7 @@ search. It does not crash.
 | `Sorry! No Internet.` | The program could not reach GitHub. Check your connection. |
 | `GitHub took too long.` | GitHub did not answer within 10 seconds. Try again. |
 | `GitHub rate limit was reached. Please! Wait a minute.` | Status 403. You made too many requests. Wait a minute. |
-| `GitHub answered with status: ...` | Any other status that is not 200. |
+| `GitHub answered with status: ...` | Any other status that is not 200. Status 404 after a repo name means the repo does not exist. |
 | `GitHub's response wasn't in the expected shape` | The answer did not have the data the program needs. |
 | `Sorry! The json file got corrupted.` | The saved cache file was damaged. The program deletes it, so search again. |
 
@@ -91,9 +105,9 @@ python -m pytest
 
 | File | What it holds |
 | --- | --- |
-| `tracker.py` | The program: fetching, saving, loading and the chart |
+| `tracker.py` | The program: fetching, finding similar repos, saving, loading and the chart |
 | `repo.py` | The `Repo` class (name, stars, owner, url, description) |
-| `test_tracker.py` | Six pytest tests with a fixture, monkeypatch and a fake `requests` |
+| `test_tracker.py` | Eight pytest tests with a fixture, monkeypatch and a fake `requests` |
 | `requirements.txt` | The libraries the project needs |
 | `HOW_TO_RUN_WINDOWS.md` | A setup guide for beginners on Windows |
 | `HOW_TO_RUN_LINUX.md` | A setup guide for beginners on Linux |

@@ -1,5 +1,5 @@
 import pytest
-from tracker import repos_to_dicts, dicts_to_repos, ask_topic, fetch_repos
+from tracker import repos_to_dicts, dicts_to_repos, ask_topic, fetch_repos, get_repo_info
 from repo import Repo
 
 @pytest.fixture
@@ -84,3 +84,23 @@ def test_fetch_repos_error(monkeypatch):
     monkeypatch.setattr('requests.get', fake_get)
     with pytest.raises(ConnectionError, match="rate limit"):
         fetch_repos('llm', 'python')
+        
+def test_get_repo_info(monkeypatch):
+    """test get repos info with fake data using monkeypatch."""
+    fake_data = {'topics': ['plotly', 'python'], 'language': 'Python'}
+    def fake_get(_url, timeout=10):
+        """Return a FakeResponse"""
+        return FakeResponse(200, fake_data)
+    monkeypatch.setattr('requests.get', fake_get)
+    topics, language = get_repo_info('a/b')
+    assert topics == ['plotly', 'python']
+    assert language == 'Python'
+    
+def test_get_repo_info_error(monkeypatch):
+    """get_repo_info raises ConnectionError when GitHub answers 404."""
+    def fake_get(_url, timeout):
+        """Return a fake response with status 404."""
+        return FakeResponse(404, {})
+    monkeypatch.setattr('requests.get', fake_get)
+    with pytest.raises(ConnectionError, match="GitHub answered with status: 404"):
+        get_repo_info('a/b')

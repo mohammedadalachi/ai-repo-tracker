@@ -66,10 +66,15 @@ This uses the environment's own Python, so there is no activation step.
 .venv/bin/python tracker.py
 ```
 
-Type a topic such as `machine learning` and press Enter. Then type a
-programming language such as `python` and press Enter. You can skip one of them
-by pressing Enter, but give at least one. The chart opens in your browser. Click
-a repo name to open it on GitHub. Type `q` at the topic question to quit.
+The first question asks for a repo name like `owner/name`. Press Enter to skip
+it. If you type a name, the tool finds repos that share its topics and draws a
+chart of them.
+
+If you skipped it, type a topic such as `machine learning` and press Enter.
+Then type a programming language such as `python` and press Enter. You can skip
+one of them by pressing Enter, but give at least one. The chart opens in your
+browser. Click a repo name to open it on GitHub. Type `q` at the first or the
+topic question to quit.
 
 ## Step 8 (optional): Run the tests
 
